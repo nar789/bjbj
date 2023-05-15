@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="theme-color" content="#000000" />
+        <title>BLACKJACK#TOMATO</title>
+        <link rel="stylesheet" href="./css/index.css">
+    </head>
+    <body onload="init()">    
+
+        <div id="content" class="content">
+            
+            <div id="dark" style="width:1024px; height:768px; background-color: black; 
+            opacity:0.8; z-index: 98; position:absolute; left:0px; top:0px; display: none;"></div>
+
+            <div id="insu-group" style="position:absolute; z-index:99; display: none;">
+                <p style="position:absolute; top:100px; width:1024px; text-align:center;
+                color:white; font-size:30px;">INSURANCE를 적용하시겠습니까?</p>                
+                <button style="position:absolute; top:334px; left: 334px;
+                width:100px; height:100px;
+                background-color: #ec003b69; color:white; font-size: 30px;" onclick="insu(true)">YES</button>
+                <button style="position:absolute; top:334px; left: 590px;
+                width:100px; height:100px;
+                background-color: #1a014269; color:white; font-size: 30px;" onclick="insu(false)">NO</button>
+            </div>
+
+            <div id="gameover-group" style="position: absolute; z-index: 99; display: none;">
+                <p style="color:white; position: absolute; top:210px; width:1024px; display: none;
+                text-align: center; font-size: 70px; opacity: 0.5;" id="game-result2">PUSH</p>
+                <p style="color:white; position: absolute; top:400px; width:1024px; 
+                text-align: center; font-size: 70px; opacity: 0.5;" id="game-result">PUSH</p>
+                <button style="background:linear-gradient(#d13d3d,#530000 );color:white;
+                width:300px; height:100px; border-radius: 50px; font-size: 30px;
+                position:absolute;top:668px; left:362px;" onclick="restart()" id="restart-btn">RESTART</button>
+            </div>
+
+            <div id="betting" style="z-index:99; position: absolute; display: none;; ">
+                <p style="position:absolute; top:100px; width:1024px; text-align:center;
+                color:white; font-size:30px;">베팅할 금액을 선택해주세요.</p>
+                <button id="bet1" onclick="betting(20)" style="width:100px; height:100px; position: absolute;
+                background:linear-gradient(#2c213f,#0f0c15 );color:white;
+                top:334px; left:78px; line-height: 100px; font-size: 30px; text-align: center; border-radius: 100px;">20만</button>
+
+                <button id="bet2" onclick="betting(50)" style="width:100px; height:100px; position: absolute;
+                background:linear-gradient(#3f3120,#17140f );color:white;
+                top:334px; left:334px; line-height: 100px; font-size: 30px; text-align: center; border-radius: 100px;">50만</button>
+
+                <button id="bet3" onclick="betting(100)" style="width:100px; height:100px; position: absolute;
+                background:linear-gradient(#402423,#322222 );color:white;
+                top:334px; left:590px; line-height: 100px; font-size: 30px; text-align: center; border-radius: 100px;">100만</button>
+
+                <button id="bet4" onclick="betting(200)" style="width:100px; height:100px; position: absolute;
+                background:linear-gradient(#22474c,#142426 );color:white;
+                top:334px; left:846px; line-height: 100px; font-size: 30px; text-align: center; border-radius: 100px;">200만</button>
+            </div>
+
+            
+
+            <img src="./img/back.png" class="backimg" />
+
+            <div id="my-point" style="position:absolute; top:10px; left :10px; 
+            color:white; font-size: 30px;"></div>
+
+            <div id="deck">
+                <div style="width:60px; height:90px; background-color: gray; 
+                position: absolute; border-radius: 10px; top:0px; left:954px; border:5px solid #dedede;">
+                </div>
+
+                <div style="width:60px; height:90px; background-color: gray; 
+                position: absolute; border-radius: 10px; top:0px; left:964px; border:5px solid #dedede;">
+                </div>
+            </div>
+
+
+            <div id="d-card-group">
+            </div>
+
+            <div id="dinfo" style="background-color: #303030; position: absolute;
+            top:90px; left:340px; height:30px; width: 90px; border:3px solid #4c7e35;
+            text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
+            color:white; font-weight: bold; display: none;"></div>
+
+            <div id="my-card-group">
+            </div>
+
+            <div id="my-card-t-group" style="opacity:0.5;">
+            </div>
+
+            <div id="bet-price-t" style="background-color: #142a1d; position: absolute;
+            top:410px; left:467px; height:30px; width: 90px; border:3px solid #285612;
+            text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
+            color:#dece03; font-weight: bold; display: none;">
+            </div>
+
+            <div id="info-t" style="background-color: #303030; position: absolute;
+            top:260px; left:467px; height:30px; width: 90px; border:3px solid #4c7e35;
+            text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
+            color:white; font-weight: bold; display: none;"></div>
+
+            <div id="bet-price" style="background-color: #142a1d; position: absolute;
+            top:600px; left:467px; height:30px; width: 90px; border:3px solid #285612;
+            text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
+            color:#dece03; font-weight: bold; display: none;">
+            </div>
+
+            <div id="info" style="background-color: #303030; position: absolute;
+            top:450px; left:467px; height:30px; width: 90px; border:3px solid #4c7e35;
+            text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
+            color:white; font-weight: bold;"></div>
+
+
+            <div id="btn-group">
+                <button style="width:256px; height:100px; 
+                background:linear-gradient(#2c213f,#0f0c15 ); position: absolute;
+                top:668px;left:0px; color:#efefef; line-height: 100px; font-size: 30px;
+                text-align: center;" onclick="doubledown()">더블다운</button>
+
+                <button style="width:256px; height:100px; 
+                background:linear-gradient(#3f3120,#17140f ); position: absolute;
+                top:668px;left:256px; color:#efefef; line-height: 100px; font-size: 30px;
+                text-align: center; opacity: 0.5;" onclick="splitcard()" id="split-btn">스플릿</button>
+
+                <button style="width:256px; height:100px; 
+                background:linear-gradient(#402423,#322222 ); position: absolute;
+                top:668px;left:512px; color:#efefef; line-height: 100px; font-size: 30px;
+                text-align: center;" onclick="stand()">스탠드</button>
+
+                <button style="width:256px; height:100px; 
+                background:linear-gradient(#22474c,#142426 ); position: absolute;
+                top:668px;left:768px; color:#efefef; line-height: 100px; font-size: 30px;
+                text-align: center;" onclick="hit()">히트</button>
+            </div>
+
+        </div>
+
+        
+        <script src="./js/jquery.min.js"></script>
+        <script src="./js/index.js"></script>
+        <script>
+            let point = 100000;
+            let betPrice = 0;
+            let betPrice2 = 0;
+            let cards = [];
+            let dcards = [];
+            let mcards = [];
+            let mcards2 = [];
+            let isSplit = false;
+            let isEnd = false;
+            let isSplitEnd = false;
+            let isUserBust = false;
+            let isUserBlackJack = false;
+
+            function initValues() {
+                betPrice = 0;
+                betPrice2 = 0;
+                cards = [];
+                dcards = [];
+                mcards = [];
+                mcards2 = [];
+                isSplit = false;
+                isEnd = false;
+                isSplitEnd = false;
+                isUserBust = false;
+                isUserBlackJack = false;
+            }
+
+            function initVisible() {
+                $('#split-btn').css('opacity', '0.5');
+                $('#bet-price').css('display', 'none');
+                $('#d-card-group').html("");
+                $('#my-card-group').html("");
+                $('#my-card-t-group').html("");
+                $('#dinfo').css('display', 'none');
+                $('#info').css('display', 'none');
+                $('#gameover-group').css('display', 'none');
+                $('#my-point').html(point);
+                $('#info').css('opacity', '1');
+                $('#bet-price').css('opacity', '1');                
+                $('#info-t').css('display', 'none');
+                $('#bet-price-t').css('display', 'none');     
+                $('#my-card-group').css('opacity', '1');
+                $('#my-card-t-group').css('opacity', '0.5');
+                $('#game-result2').css('display', 'none');
+                $('#btn-group').css('display', 'block');
+                $('#insu-group').css('display', 'none');
+            }
+
+            function start() {
+                initVisible();
+                initValues();
+                shuffle();
+                $('#dark').css('display', 'block');
+                $('#betting').css('display', 'block');
+            }
+
+            function shuffle() {
+                for(var i=1;i<=13;i++) {
+                    let s = "S"
+                    let c = {};
+                    c.shape = s;
+                    c.number = i;
+                    cards.push(c);
+                }
+                for(var i=1;i<=13;i++) {
+                    let s = "D"
+                    let c = {};
+                    c.shape = s;
+                    c.number = i;
+                    cards.push(c);
+                }
+                for(var i=1;i<=13;i++) {
+                    let s = "H"
+                    let c = {};
+                    c.shape = s;
+                    c.number = i;
+                    cards.push(c);
+                }
+                for(var i=1;i<=13;i++) {
+                    let s = "C"
+                    let c = {};
+                    c.shape = s;
+                    c.number = i;
+                    cards.push(c);
+                }
+                cards.sort(() => Math.random() - 0.5);
+                console.log('suffle is complete');
+            }
+
+            function betting(prc) {
+                $('#bet-price').css('display', 'block');
+                $('#bet-price').html(prc+"만");
+                betPrice = prc;
+                point -= betPrice;
+                $('#my-point').html(point);
+                $('#dark').css('display', 'none');
+                $('#betting').css('display', 'none');
+                give();
+            }
+
+            function updateDInfo() {
+                $('#dinfo').css('display', 'block');
+                let r = getSum(dcards);
+                if(isBust(dcards)) {
+                    $('#dinfo').html("bust!");    
+                    return;
+                }
+                if(isBlackJack(dcards)) {
+                    $('#dinfo').html("Blackjack!");    
+                    return;
+                }
+                let str = r[0] + "";
+                if(r[0] != r[1] && r[1] <= 21) {
+                    str += `/${r[1]}`;
+                }
+                $('#dinfo').html(str);
+            }
+
+            function updateInfo() {
+                $('#info').css('display', 'block');
+                let r = getSum(mcards);
+                if(isBust(mcards)) {
+                    $('#info').html("bust!");    
+                    return;
+                }
+                if(isBlackJack(mcards)) {
+                    $('#info').html("Blackjack!");    
+                    return;
+                }
+                let str = r[0] + "";
+                if(r[0] != r[1] && r[1] <= 21) {
+                    str += `/${r[1]}`;
+                }
+                $('#info').html(str);
+            }
+
+            function updateInfoT() {
+                $('#info-t').css('display', 'block');
+                let r = getSum(mcards2);
+                if(isBust(mcards2)) {
+                    $('#info-t').html("bust!");    
+                    return;
+                }
+                if(isBlackJack(mcards2)) {
+                    $('#info-t').html("Blackjack!");    
+                    return;
+                }
+                let str = r[0] + "";
+                if(r[0] != r[1] && r[1] <= 21) {
+                    str += `/${r[1]}`;
+                }
+                $('#info-t').html(str);
+            }
+
+            function give() {
+                for(var i=1;i<=2;i++) {
+                    let card = cards.pop();
+                    dcards.push(card);
+                    flyDcard(card, i);
+                    let card2 = cards.pop();
+                    mcards.push(card2);
+                    flyMcard(card2, i);
+                }
+                updateInfo();
+
+                if(isBlackJack(mcards)) {
+                    isUserBlackJack = true;
+                    endturn();
+                    return;
+                }
+
+                if((mcards[0].number == mcards[1].number) || 
+                 (mcards[0].number >= 10 && mcards[1].number >= 10)) {
+                    $('#split-btn').css('opacity', '1');
+                }
+
+                if(dcards[0].shape == 'S' && dcards[0].number == 1) {
+                    $('#dark').css('display', 'block');
+                    $('#insu-group').css('display', 'block');
+                }
+
+            }
+
+            function insu(accept) {
+                $('#dark').css('display', 'none');
+                $('#insu-group').css('display', 'none');
+                if(!accept) {
+                    return;  
+                }
+                point -= betPrice * 0.5;
+                $('#my-point').html(point);
+
+                if(dcards[1].number >= 10) {
+                    point += betPrice * 1.5;
+                    $('#my-point').html(point);
+                    endturn();
+                }
+            }
+
+            function flyDcard(c, idx) {
+                let et = '90px';
+                let el = (444 + (idx-1) * 40) + "px";
+                let v = `
+                <div id="d${idx}" style="width:60px; height:90px; background-color: white; 
+                position: absolute; border-radius: 10px; top:0px; left:964px; border:5px solid #dedede;">
+                <div style="font-size:20px; font-weight: bold; position: absolute; left:10px;color: #bd2828;" id="card-d-number-${idx}"></div>
+                <div style="font-size:35px;left:12.5px;position:absolute;top:20px;color:#bd2828;" id="card-d-shape-${idx}"></div>
+                </div>`;
+                $('#d-card-group').append(v);
+                $(`#d${idx}`).animate({
+                    top:et,
+                    left:el
+                });
+                if(idx == 2) {
+                    $(`#d${idx}`).css('background-color', 'gray');
+                    return;
+                }
+                if(c.shape == 'D' || c.shape == 'H') {
+                    $(`#card-d-number-${idx}`).css('color', '#bd2828');
+                    $(`#card-d-shape-${idx}`).css('color', '#bd2828');
+                } else {
+                    $(`#card-d-number-${idx}`).css('color', 'black');
+                    $(`#card-d-shape-${idx}`).css('color', 'black');
+                }
+                $(`#card-d-number-${idx}`).html(getNumber(c.number));
+                $(`#card-d-shape-${idx}`).html(getShape(c.shape));
+            }
+
+            function flyM2card(c, idx) {
+                let et = '300px';
+                let el = (444 + (idx-1) * 40) + "px";
+                let v = `
+                <div id="mt${idx}" style="width:60px; height:90px; background-color: white; 
+                position: absolute; border-radius: 10px; top:0px; left:964px; border:5px solid #dedede;">
+                <div style="font-size:20px; font-weight: bold; position: absolute; left:10px;color: #bd2828;" id="card-mt-number-${idx}"></div>
+                <div style="font-size:35px;left:12.5px;position:absolute;top:20px;color:#bd2828;" id="card-mt-shape-${idx}"></div>
+                </div>`;
+                $('#my-card-t-group').append(v);
+                $(`#mt${idx}`).animate({
+                    top:et,
+                    left:el
+                });
+                if(c.shape == 'D' || c.shape == 'H') {
+                    $(`#card-mt-number-${idx}`).css('color', '#bd2828');
+                    $(`#card-mt-shape-${idx}`).css('color', '#bd2828');
+                } else {
+                    $(`#card-mt-number-${idx}`).css('color', 'black');
+                    $(`#card-mt-shape-${idx}`).css('color', 'black');
+                }
+                $(`#card-mt-number-${idx}`).html(getNumber(c.number));
+                $(`#card-mt-shape-${idx}`).html(getShape(c.shape));
+            }
+
+            function flyMcard(c, idx) {
+                let et = '490px';
+                let el = (444 + (idx-1) * 40) + "px";
+                let v = `
+                <div id="m${idx}" style="width:60px; height:90px; background-color: white; 
+                position: absolute; border-radius: 10px; top:0px; left:964px; border:5px solid #dedede;">
+                <div style="font-size:20px; font-weight: bold; position: absolute; left:10px;color: #bd2828;" id="card-m-number-${idx}"></div>
+                <div style="font-size:35px;left:12.5px;position:absolute;top:20px;color:#bd2828;" id="card-m-shape-${idx}"></div>
+                </div>`;
+                $('#my-card-group').append(v);
+                $(`#m${idx}`).animate({
+                    top:et,
+                    left:el
+                });
+                if(c.shape == 'D' || c.shape == 'H') {
+                    $(`#card-m-number-${idx}`).css('color', '#bd2828');
+                    $(`#card-m-shape-${idx}`).css('color', '#bd2828');
+                } else {
+                    $(`#card-m-number-${idx}`).css('color', 'black');
+                    $(`#card-m-shape-${idx}`).css('color', 'black');
+                }
+                $(`#card-m-number-${idx}`).html(getNumber(c.number));
+                $(`#card-m-shape-${idx}`).html(getShape(c.shape));
+            }
+
+            function doubledown() {
+                if(!isEnd) {
+                    point -= betPrice;
+                    $('#my-point').html(point);
+                    betPrice *= 2;
+                    $('#bet-price').html(betPrice+"만");
+
+                    let card = cards.pop();
+                    mcards.push(card);
+                    flyMcard(card, mcards.length);
+                    
+                    updateInfo();
+                    
+                    endturn();                
+                } else {
+                    isSplitEnd = true;
+                    point -= betPrice2;
+                    $('#my-point').html(point);
+                    betPrice2 *= 2;
+                    $('#bet-price-t').html(betPrice2+"만");
+
+                    let card = cards.pop();
+                    mcards2.push(card);
+                    flyM2card(card, mcards2.length);
+
+                    updateInfoT();
+
+                    endturn(); 
+                }
+            }
+
+            function splitcard() {
+                if(isSplit || $('#split-btn').css('opacity') != 1) {
+                    return;
+                }
+                $('#split-btn').css('opacity', '0.5');
+                
+                isSplit = true;
+                let card = mcards.pop();
+                $('#m2').remove();
+                mcards2.push(card);
+                flyM2card(card, 1);
+                updateInfo();
+
+                $('#my-card-t-group').css('opacity', '0.5');
+                $('#bet-price-t').css('opacity','0.5');
+                $('#info-t').css('opacity','0.5');
+                $('#bet-price-t').css('display','block');
+                $('#info-t').css('display','block');
+                betPrice2 = betPrice;
+                point -= betPrice2;
+                $('#my-point').html(point);
+                $('#bet-price-t').html(betPrice2+"만");
+                updateInfoT();
+            }
+
+            function endturn() {
+                console.log('endturn');
+                
+                if(isSplit && !isSplitEnd) {
+                    isEnd = true;
+                    $('#my-card-group').css('opacity', '0.5');
+                    $('#info').css('opacity', '0.5');
+                    $('#bet-price').css('opacity', '0.5');
+                    $('#my-card-t-group').css('opacity', '1');
+                    $('#bet-price-t').css('opacity','1');
+                    $('#info-t').css('opacity','1');
+                } else {
+                    dealerplay();
+                }
+            }
+
+            function updateHiddenCard() {
+                let c = dcards[1];
+                $('#d2').css('background-color', 'white');
+                if(c.shape == 'D' || c.shape == 'H') {
+                    $(`#card-d-number-2`).css('color', '#bd2828');
+                    $(`#card-d-shape-2`).css('color', '#bd2828');
+                } else {
+                    $(`#card-d-number-2`).css('color', 'black');
+                    $(`#card-d-shape-2`).css('color', 'black');
+                }
+                $('#card-d-shape-2').html(getShape(c.shape));
+                $('#card-d-number-2').html(getNumber(c.number));
+            }
+
+            async function dealerHit() {
+                let r = getSum(dcards);
+                while(r[1] < 17 || (r[1] > 21 && r[0] < 17)) {
+                    let card = cards.pop();
+                    dcards.push(card);
+                    flyDcard(card, dcards.length);
+                    updateDInfo();
+                    r = getSum(dcards);
+                    await sleep(1000);
+                }
+            }            
+
+            async function dealerplay() {
+                $('#btn-group').css('display', 'none');
+                await sleep(1000);
+                updateHiddenCard();
+                updateDInfo();
+                await sleep(1000);
+                dealerHit();
+                await sleep(1000);
+                gameover();
+
+
+            }
+
+            function stand() {
+                if(!isEnd) {
+                    endturn();
+                } else {
+                    isSplitEnd = true;
+                    endturn();
+                }
+            }
+
+            function hit() {
+                
+                if(!isEnd) {
+                    let card = cards.pop();
+                    mcards.push(card);
+                    flyMcard(card, mcards.length);
+                    updateInfo();
+                    isUserBust = isBust(mcards);
+                    isUserBlackJack = isBlackJack(mcards);
+                    if(isUserBust || isUserBlackJack) {
+                        endturn();
+                    }
+                } else {
+                    let card = cards.pop();
+                    mcards2.push(card);
+                    flyM2card(card, mcards2.length);
+                    updateInfoT();
+                    isUserBust = isBust(mcards2);
+                    isUserBlackJack = isBlackJack(mcards2);
+                    if(isUserBust || isUserBlackJack) {
+                        isSplitEnd = true;
+                        endturn();
+                    }
+                }
+            }
+
+            function gameover() {
+                let win = 0;
+                let ubust = isBust(mcards);
+                let ublack = isBlackJack(mcards);
+                console.log(dcards);
+                let dbust = isBust(dcards);
+                let dblack = isBlackJack(dcards);
+                let ur = getSum(mcards);
+                let dr = getSum(dcards);
+                console.log(`${ubust} ${dbust} ${ublack} ${dblack}`);
+                if((ubust && dbust) || (ublack && dblack)) {
+                    win = 0;
+                } else if((ublack && !dblack) || (!ubust && dbust)) {
+                    win = 1;
+                } else if((!ublack && dblack) || (ubust && !dbust)) {
+                    win = -1;
+                } else {
+                    
+                    let a = Math.abs(ur[0]-21);
+                    let b = Math.abs(ur[1]-21);
+                    let c = Math.abs(dr[0]-21);
+                    let d = Math.abs(dr[1]-21);
+                    console.log(`${a} ${b} ${c} ${d}`);
+                    let uscore = a < b ? a : b;
+                    let dscore = c < d ? c : d;
+                    win = dscore - uscore;
+                }
+
+
+                if(win > 0) {
+                    console.log('user is win');
+                    $('#game-result').css('color', '#ef8989');
+                    $('#game-result').html('🎉WIN');
+                    point += betPrice * 2;
+                    if(ublack) {
+                        point += betPrice * 0.5;
+                    }
+                    $('#my-point').html(point);
+                } else if(win < 0) {
+                    console.log('user is lose');
+                    $('#game-result').css('color', '#8989ef');
+                    $('#game-result').html('😭LOSE');
+                } else {
+                    console.log('push');
+                    $('#game-result').css('color', '#89ef89');
+                    $('#game-result').html('🥶PUSH');
+                    point += betPrice;
+                    $('#my-point').html(point);
+                }
+                
+                $('#dark').css('display', 'block');
+                $('#gameover-group').css('display', 'block');
+                if(point < 0) {
+                    $('#restart-btn').css('display', 'none');
+                } else {
+                    $('#restart-btn').css('display', 'block');
+                }
+
+                if(isSplit) {
+                    gameover2();
+                }
+
+            }
+
+            function gameover2() {
+                let win = 0;
+                let ubust = isBust(mcards2);
+                let ublack = isBlackJack(mcards2);
+                let dbust = isBust(dcards);
+                let dblack = isBlackJack(dcards);
+                let ur = getSum(mcards2);
+                let dr = getSum(dcards);
+                console.log(`${ubust} ${dbust} ${ublack} ${dblack}`);
+                if((ubust && dbust) || (ublack && dblack)) {
+                    win = 0;
+                } else if((ublack && !dblack) || (!ubust && dbust)) {
+                    win = 1;
+                } else if((!ublack && dblack) || (ubust && !dbust)) {
+                    win = -1;
+                } else {
+                    
+                    let a = Math.abs(ur[0]-21);
+                    let b = Math.abs(ur[1]-21);
+                    let c = Math.abs(dr[0]-21);
+                    let d = Math.abs(dr[1]-21);
+                    console.log(`${a} ${b} ${c} ${d}`);
+                    let uscore = a < b ? a : b;
+                    let dscore = c < d ? c : d;
+                    win = dscore - uscore;
+                }
+
+                $('#game-result2').css('display', 'block');
+
+                if(win > 0) {
+                    console.log('user is win');
+                    $('#game-result2').css('color', '#ef8989');
+                    $('#game-result2').html('🎉WIN');
+                    point += betPrice2 * 2;
+                    if(ublack) {
+                        point += betPrice2 * 0.5;
+                    }
+                    $('#my-point').html(point);
+                } else if(win < 0) {
+                    console.log('user is lose');
+                    $('#game-result2').css('color', '#8989ef');
+                    $('#game-result2').html('😭LOSE');
+                } else {
+                    console.log('push');
+                    $('#game-result2').css('color', '#89ef89');
+                    $('#game-result2').html('🥶PUSH');
+                    point += betPrice2;
+                    $('#my-point').html(point);
+                }
+
+                if(point < 0) {
+                    $('#restart-btn').css('display', 'none');
+                } else {
+                    $('#restart-btn').css('display', 'block');
+                }
+            }
+
+            function restart() {
+                start();
+            }
+
+            start();
+            
+        </script>
+    </body>
+
+        
+
+</html>
