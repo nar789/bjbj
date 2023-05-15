@@ -521,7 +521,7 @@
                 updateHiddenCard();
                 updateDInfo();
                 await sleep(1000);
-                dealerHit();
+                await dealerHit();
                 await sleep(1000);
                 gameover();
 
@@ -602,6 +602,7 @@
                     }
                     $('#my-point').html(point);
                 } else if(win < 0) {
+                    $('#my-point').html(point);
                     console.log('user is lose');
                     $('#game-result').css('color', '#8989ef');
                     $('#game-result').html('😭LOSE');
@@ -666,6 +667,7 @@
                     }
                     $('#my-point').html(point);
                 } else if(win < 0) {
+                    $('#my-point').html(point);
                     console.log('user is lose');
                     $('#game-result2').css('color', '#8989ef');
                     $('#game-result2').html('😭LOSE');

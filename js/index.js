@@ -40,9 +40,7 @@ function isBlackJack(cs) {
 }
 
 function getSum(cs) {
-    let ret=[];
-    ret.push(0);
-    ret.push(0);
+    let ret=[0, 0];
     for(var i=0;i<cs.length;i++) {
         if(cs[i].number == 1) {
             ret[0] += 1;
