@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <meta name="theme-color" content="#000000" />
         <title>BLACKJACK#TOMATO</title>
-        <link rel="stylesheet" href="./css/index.css">
+        <link rel="stylesheet" href="/assets/css/index.css">
     </head>
     <body onload="init()">    
 
@@ -14,6 +14,19 @@
             
             <div id="dark" style="width:1024px; height:768px; background-color: black; 
             opacity:0.8; z-index: 98; position:absolute; left:0px; top:0px; display: none;"></div>
+
+            <div id="game-start" style="position:absolute; z-index: 99; color:whtie; width:1024px; text-align: center;
+            top:200px; display: none;">
+                <button style="font-size:30px; width:300px; height:80px; border-radius: 20px; 
+                background:linear-gradient(#c79ebe,#ff84bd ); color:white;" onclick="gamestart()">게임시작</button>
+            </div>
+
+            <div id="room" style="position: absolute; z-index: 99; width:1024px; text-align: center; display: none;">
+                <p style="color:white; font-size:30px;">방번호 입력</p>                
+                <input type="text" style="font-size:30px;text-align: center;" value="456" id="room_id">
+                <button style="font-size:30px;" onclick="enter()">접속</button>
+                <button style="font-size:30px;" onclick="leave()">나가기</button>
+            </div>
 
             <div id="insu-group" style="position:absolute; z-index:99; display: none;">
                 <p style="position:absolute; top:100px; width:1024px; text-align:center;
@@ -36,7 +49,7 @@
                 position:absolute;top:668px; left:362px;" onclick="restart()" id="restart-btn">RESTART</button>
             </div>
 
-            <div id="betting" style="z-index:99; position: absolute; display: none;; ">
+            <div id="betting" style="z-index:99; position: absolute; display: none; ">
                 <p style="position:absolute; top:100px; width:1024px; text-align:center;
                 color:white; font-size:30px;">베팅할 금액을 선택해주세요.</p>
                 <button id="bet1" onclick="betting(20)" style="width:100px; height:100px; position: absolute;
@@ -58,7 +71,7 @@
 
             
 
-            <img src="./img/back.png" class="backimg" />
+            <img src="/assets/img/back.png" class="backimg" />
 
             <div id="my-point" style="position:absolute; top:10px; left :10px; 
             color:white; font-size: 30px;"></div>
@@ -82,10 +95,34 @@
             text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
             color:white; font-weight: bold; display: none;"></div>
 
+            <div id="myid-text" style="color:rgb(235, 219, 0); position:absolute; top:410px; width:250px; 
+            text-align: center; left:387px; font-weight: bold;"></div>
+            <div id="user1-text" style="color:rgb(255, 255, 255); position:absolute; top:410px; width:250px; 
+            text-align: center; left:65px; font-weight: bold; "></div>
+            <div id="user2-text" style="color:rgb(255, 255, 255); position:absolute; top:410px; width:250px; 
+            text-align: center; left:720px; font-weight: bold; "></div>
             <div id="my-card-group">
+            </div>
+            
+            <div id="user-card1-group">
+            </div>
+
+            <div id="user-card1-t-group">
+            </div>
+
+            <div id="user-card2-group">
+            </div>
+
+            <div id="user-card2-t-group">
             </div>
 
             <div id="my-card-t-group" style="opacity:0.5;">
+            </div>
+
+            <div id="my-card-t1-group" style="opacity:0.5;">
+            </div>
+
+            <div id="my-card-t2-group" style="opacity:0.5;">
             </div>
 
             <div id="bet-price-t" style="background-color: #142a1d; position: absolute;
@@ -93,6 +130,16 @@
             text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
             color:#dece03; font-weight: bold; display: none;">
             </div>
+
+            <div id="info-t1" style="background-color: #303030; position: absolute;
+            top:260px; left:143px; height:30px; width: 90px; border:3px solid #4c7e35;
+            text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
+            color:white; font-weight: bold; display: none;"></div>
+
+            <div id="info-t2" style="background-color: #303030; position: absolute;
+            top:260px; left:791px; height:30px; width: 90px; border:3px solid #4c7e35;
+            text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
+            color:white; font-weight: bold; display: none;"></div>
 
             <div id="info-t" style="background-color: #303030; position: absolute;
             top:260px; left:467px; height:30px; width: 90px; border:3px solid #4c7e35;
@@ -104,6 +151,16 @@
             text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
             color:#dece03; font-weight: bold; display: none;">
             </div>
+
+            <div id="info1" style="background-color: #303030; position: absolute;
+            top:450px; left:143px; height:30px; width: 90px; border:3px solid #4c7e35;
+            text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
+            color:white; font-weight: bold;"></div>
+
+            <div id="info2" style="background-color: #303030; position: absolute;
+            top:450px; left:791px; height:30px; width: 90px; border:3px solid #4c7e35;
+            text-align: center; line-height: 30px; font-size: 20px; border-radius:90px;
+            color:white; font-weight: bold;"></div>
 
             <div id="info" style="background-color: #303030; position: absolute;
             top:450px; left:467px; height:30px; width: 90px; border:3px solid #4c7e35;
@@ -136,8 +193,356 @@
         </div>
 
         
-        <script src="./js/jquery.min.js"></script>
-        <script src="./js/index.js"></script>
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/index.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            
+            var socket = io();
+            var myId = '';
+            var joinRoomId = null;
+            let userList;
+
+            let sdcards;
+            let sucards;
+            let sucards2;
+
+        </script>
+        <script>
+
+            function updateUserInfo() {
+
+                for(var i=1;i<=2;i++) {
+                    $(`#user${i}-text`).html("");
+                }
+
+                let cnt = 0;
+                for(var u of userList) {
+                    if(u == myId) {
+                        continue;
+                    }
+                    ++cnt;
+                    $(`#user${cnt}-text`).html(u + "님");
+                    
+                }
+            }
+
+            function gamestart() {
+                if(myId != null && userList != null && userList.length > 1) {
+                    socket.emit("game_start");
+                    $('#game-start').css('display', 'none');
+                } else {
+                    alert("can't start yet.");
+                }
+            }
+
+
+        </script>
+        <script>
+        
+            
+            socket.on('welcome', ({id}) => {
+                myId = id;
+                $('#myid-text').html(myId + "님");
+            });
+
+            
+            socket.on("room_join", ({result, error}) => {
+                console.log("room join is " + result);
+                if(error) {
+                    joinRoomId = null;
+                    alert("room join is fail / " + error);
+                    return;
+                } else {
+                    alert("room join is " + result);
+                    $('#room').css('display', 'none');
+                }
+            });
+
+            socket.on("room_leave", ({result}) => {
+                if(result === "success") {
+                    joinRoomId = null;
+                }
+                alert("room leave is " + result);
+            });
+
+            socket.on('user_info', ({users, result}) => {
+                let isJoin = false;
+                if(users.length > 0) {
+                    $('#dark').css('display', 'block');
+                    if(users[0] === myId) {
+                        $("#game-start").css('display', 'block');
+                    }
+                }
+                for(var u of users) {
+                    if(u === myId) {
+                        isJoin = true;
+                        break;
+                    }
+                }
+                if(isJoin) {
+                    userList = users;
+                    console.log(JSON.stringify(users));
+                } else {
+                    userList = [];
+                }
+                updateUserInfo();
+            });
+
+            socket.on('betting', ({}) => {
+                start();
+                $('#room').css('display', 'none');
+                $('#dark').css('display', 'block');
+                $('#betting').css('display', 'block');
+                sucards2 = {};
+                for(var u of userList) {
+                    sucards2[u] = [];
+                }
+            });
+
+            socket.on('give', ({dc, uc}) => {
+                $('#dark').css('display', 'none');
+                sdcards = dc;
+                sucards = uc;
+                for(var i=1;i<=2;i++) {
+                    flyDcard(sdcards[i-1], i);
+                    var cnt = 0;
+                    for(var u of userList) {
+                        if(u == myId) {
+                            flyMcard(sucards[u][i-1], i);
+                        } else {
+                            flyMcard(sucards[u][i-1], i, ++cnt);
+                        }
+                    }
+                }
+
+                updateInfo();
+
+                
+                if(sdcards[0].shape == 'S' && sdcards[0].number == 1) {
+                    $('#dark').css('display', 'block');
+                    $('#insu-group').css('display', 'block');
+                }
+            });
+
+            socket.on('splitcard', ({id}) => {
+                console.log('splitcard ' + id);
+                if(id == myId) {
+                    let card = sucards[myId].pop();
+                    $('#m2').remove();
+                    sucards2[myId].push(card);
+                    flyM2card(card, 1); 
+                    updateInfo();
+
+                    $('#my-card-t-group').css('opacity', '0.5');
+                    $('#bet-price-t').css('opacity','0.5');
+                    $('#info-t').css('opacity','0.5');
+                    $('#bet-price-t').css('display','block');
+                    $('#info-t').css('display','block');
+                    betPrice2 = betPrice;
+                    point -= betPrice2;
+                    $('#my-point').html(point);
+                    $('#bet-price-t').html(betPrice2+"만");
+                    updateInfoT();
+                } else {
+                    let uidx = 0;
+                    for(var u of userList) {
+                        if(u == myId) {
+                            continue;
+                        }
+                        ++uidx;
+                        if(u == id) {
+                            break;
+                        }
+                    }
+                    console.log("splite card user idx " + uidx);
+                    let card = sucards[id].pop();
+                    console.log(card);
+                    $('#m2_' + uidx).remove();
+                    sucards2[id].push(card);
+                    flyM2card(card, 1, uidx); 
+                    updateInfo();
+
+                    $(`#my-card-t${uidx}-group`).css('opacity', '0.5');
+                    $('#info-t').css('opacity','0.5');
+                    $('#info-t').css('display','block');
+                    updateInfoT();
+                }
+
+            });
+
+            socket.on('turn', ({userId}) => {
+                console.log('turn  = ' + userId);
+                $('#btn-group').css('display', 'none');
+                $('#my-card-group').css('opacity', '0.5');
+                $('#user-card1-group').css('opacity', '0.5');
+                $('#user-card2-group').css('opacity', '0.5');
+                $('#myid-text').css('opacity', '0.5');
+                $('#user1-text').css('opacity', '0.5');
+                $('#user2-text').css('opacity', '0.5');
+                $('#info').css('opacity', '0.5');
+                $('#info1').css('opacity', '0.5');
+                $('#info2').css('opacity', '0.5');
+                $('#bet-price').css('opacity', '0.5');
+
+                if(userId == myId) {
+                    $('#my-card-group').css('opacity', '1');
+                    $('#myid-text').css('opacity', '1');
+                    $('#info').css('opacity', '1');
+                    $('#btn-group').css('display', 'block');
+                    $('#bet-price').css('opacity', '1');
+
+                    
+                    if(isBlackJack(sucards[myId])) {
+                        isUserBlackJack = true;
+                        endturn();
+                        return;
+                    }
+                    
+                    if( sucards[myId].length == 2 && ( (sucards[myId][0].number == sucards[myId][1].number) || 
+                        (sucards[myId][0].number >= 10 && sucards[myId][1].number >= 10))) {
+                            $('#split-btn').css('opacity', '1');    
+                    }
+                    
+                } else {
+
+                    let cnt = 0;
+                    for(var u of userList) {
+                        if(u == myId) {
+                            continue;
+                        }
+                        ++cnt;
+                        if(userId == u) {
+                            break;
+                        }
+                    }
+                    console.log('enable user ' + cnt);
+                    $(`#user-card${cnt}-group`).css('opacity', '1');
+                    $('#info' + cnt).css('opacity', '1');
+                    $('#user' + cnt + "-text").css('opacity', '1');
+                }
+               
+            });
+
+            socket.on('hit', ({id, card, isEnd}) => {
+                console.log(`hit ${id} / ${isEnd}`);
+                if(!isEnd)  {
+                    sucards[id].push(card);
+
+                    var cnt = 0;
+                    for(var u of userList) {
+                        if(id == u) {
+                            if(u == myId) {
+                                flyMcard(card, sucards[u].length);
+                            } else {
+                                flyMcard(card, sucards[u].length, ++cnt);
+                            }
+                        }
+                    }
+
+                    updateInfo();
+                    console.log('hit ' + id);
+                    if(id==myId && (isBust(sucards[id]) || isBlackJack(sucards[id]))) {
+                        endturn();
+                    }
+                } else {
+                    sucards2[id].push(card);
+
+                    var cnt = 0;
+                    for(var u of userList) {
+                        if(id == u) {
+                            if(u == myId) {
+                                flyM2card(card, sucards2[u].length);
+                            } else {
+                                flyM2card(card, sucards2[u].length, ++cnt);
+                            }
+                        }
+                    }
+
+                    updateInfoT();
+                    console.log('spit hit ' + id);
+                    if(id==myId && (isBust(sucards2[id]) || isBlackJack(sucards2[id]))) {
+                        endturn();
+                    }
+                }
+            });
+
+            socket.on('doubledown', ({id, card, isEnd}) => {
+                if(!isEnd) {
+                    sucards[id].push(card);
+
+                    var cnt = 0;
+                    for(var u of userList) {
+                        if(id == u) {
+                            if(u == myId) {
+                                flyMcard(card, sucards[u].length);
+                            } else {
+                                flyMcard(card, sucards[u].length, ++cnt);
+                            }
+                        }
+                    }
+
+                    updateInfo();
+                    console.log('doubledown ' + id);
+                    if(id == myId) {
+                        endturn();
+                    }
+                } else {
+                    sucards2[id].push(card);
+
+                    var cnt = 0;
+                    for(var u of userList) {
+                        if(id == u) {
+                            if(u == myId) {
+                                flyM2card(card, sucards2[u].length);
+                            } else {
+                                flyM2card(card, sucards2[u].length, ++cnt);
+                            }
+                        }
+                    }
+
+                    updateInfoT();
+                    console.log('split doubledown ' + id);
+                    if(id == myId) {
+                        endturn();
+                    }
+                }
+            });
+
+            socket.on('dealerplay', ({dc}) => {
+                console.log('dealerplay');
+                console.log(dc);
+                sdcards = dc;
+                dealerplay();
+            });
+        
+        </script>
+        <script>
+            function enter() {
+                if(joinRoomId != null) {
+                    alert('ERROR : already join room is ' + joinRoomId);
+                    return;
+                }
+                const roomId = $('#room_id').val();
+                console.log("ENTERED ROOM ID : " + roomId);
+                joinRoomId = roomId;
+                socket.emit("room_join",{
+                    id:roomId
+                });
+            }
+
+            function leave() {
+                if(joinRoomId == null) {
+                    return;
+                }
+
+                socket.emit("room_leave", {
+                    id:joinRoomId
+                });
+
+                $('#room_id').val("");
+            }
+        </script>
         <script>
             let point = 100000;
             let betPrice = 0;
@@ -152,6 +557,7 @@
             let isUserBust = false;
             let isUserBlackJack = false;
 
+         
             function initValues() {
                 betPrice = 0;
                 betPrice2 = 0;
@@ -172,27 +578,45 @@
                 $('#d-card-group').html("");
                 $('#my-card-group').html("");
                 $('#my-card-t-group').html("");
+                $('#my-card-t1-group').html("");
+                $('#my-card-t2-group').html("");
                 $('#dinfo').css('display', 'none');
                 $('#info').css('display', 'none');
                 $('#gameover-group').css('display', 'none');
                 $('#my-point').html(point);
-                $('#info').css('opacity', '1');
+                $('#info').css('opacity', '0.5');
                 $('#bet-price').css('opacity', '1');                
                 $('#info-t').css('display', 'none');
                 $('#bet-price-t').css('display', 'none');     
                 $('#my-card-group').css('opacity', '1');
                 $('#my-card-t-group').css('opacity', '0.5');
+                $('#my-card-t1-group').css('opacity', '0.5');
+                $('#my-card-t2-group').css('opacity', '0.5');
                 $('#game-result2').css('display', 'none');
-                $('#btn-group').css('display', 'block');
+                $('#btn-group').css('display', 'none');
                 $('#insu-group').css('display', 'none');
+
+                $('#d-card-group').css('opacity', '0.5');
+                $('#user-card1-group').html("");
+                $('#user-card1-t-group').html("");
+                $('#user-card2-group').html("");
+                $('#user-card2-t-group').html("");
+                $('#info1').css('opacity', '0.5');
+                $('#info2').css('opacity', '0.5');
+                $('#info1').css('display', 'none');
+                $('#info2').css('display', 'none');
+
+                $('#myid-text').css('opacity', '0.5');
+                $('#user1-text').css('opacity', '0.5');
+                $('#user2-text').css('opacity', '0.5');
+                
             }
 
             function start() {
                 initVisible();
                 initValues();
-                shuffle();
                 $('#dark').css('display', 'block');
-                $('#betting').css('display', 'block');
+                $('#room').css('display', 'block');
             }
 
             function shuffle() {
@@ -234,19 +658,20 @@
                 betPrice = prc;
                 point -= betPrice;
                 $('#my-point').html(point);
-                $('#dark').css('display', 'none');
                 $('#betting').css('display', 'none');
-                give();
+
+                socket.emit("betting-done",{});
+
             }
 
             function updateDInfo() {
                 $('#dinfo').css('display', 'block');
-                let r = getSum(dcards);
-                if(isBust(dcards)) {
+                let r = getSum(sdcards);
+                if(isBust(sdcards)) {
                     $('#dinfo').html("bust!");    
                     return;
                 }
-                if(isBlackJack(dcards)) {
+                if(isBlackJack(sdcards)) {
                     $('#dinfo').html("Blackjack!");    
                     return;
                 }
@@ -258,68 +683,57 @@
             }
 
             function updateInfo() {
-                $('#info').css('display', 'block');
-                let r = getSum(mcards);
-                if(isBust(mcards)) {
-                    $('#info').html("bust!");    
-                    return;
+                var cnt  = 0;
+                for(var u of userList) {
+
+                    var infoId = '#info';
+                    if(u != myId) {
+                        infoId += `${++cnt}`;
+                    }
+                    $(infoId).css('display', 'block');
+                    let r = getSum(sucards[u]);
+                    if(isBust(sucards[u])) {
+                        $(infoId).html("bust!");    
+                    } else if(isBlackJack(sucards[u])) {
+                        $(infoId).html("Blackjack!");      
+                    } else {
+                        let str = r[0] + "";
+                        if(r[0] != r[1] && r[1] <= 21) {
+                            str += `/${r[1]}`;
+                        }
+                        $(infoId).html(str);
+                    }
+
                 }
-                if(isBlackJack(mcards)) {
-                    $('#info').html("Blackjack!");    
-                    return;
-                }
-                let str = r[0] + "";
-                if(r[0] != r[1] && r[1] <= 21) {
-                    str += `/${r[1]}`;
-                }
-                $('#info').html(str);
             }
 
             function updateInfoT() {
-                $('#info-t').css('display', 'block');
-                let r = getSum(mcards2);
-                if(isBust(mcards2)) {
-                    $('#info-t').html("bust!");    
-                    return;
-                }
-                if(isBlackJack(mcards2)) {
-                    $('#info-t').html("Blackjack!");    
-                    return;
-                }
-                let str = r[0] + "";
-                if(r[0] != r[1] && r[1] <= 21) {
-                    str += `/${r[1]}`;
-                }
-                $('#info-t').html(str);
-            }
 
-            function give() {
-                for(var i=1;i<=2;i++) {
-                    let card = cards.pop();
-                    dcards.push(card);
-                    flyDcard(card, i);
-                    let card2 = cards.pop();
-                    mcards.push(card2);
-                    flyMcard(card2, i);
-                }
-                updateInfo();
+                var cnt  = 0;
+                for(var u of userList) {
+                    var infoId = '#info-t';
+                    if(u != myId) {
+                        infoId += `${++cnt}`;
+                    }
+                    $(infoId).css('display', 'none');
+                    let r = getSum(sucards2[u]);
+                    if(r[0] + r[1] == 0) {
+                        continue;
+                    }
+                    $(infoId).css('display', 'block');
+                    if(isBust(sucards2[u])) {
+                        $(infoId).html("bust!");    
+                    } else if(isBlackJack(sucards2[u])) {
+                        $(infoId).html("Blackjack!");      
+                    } else {
+                        let str = r[0] + "";
+                        if(r[0] != r[1] && r[1] <= 21) {
+                            str += `/${r[1]}`;
+                        }
+                        $(infoId).html(str);
+                    }
 
-                if(isBlackJack(mcards)) {
-                    isUserBlackJack = true;
-                    endturn();
-                    return;
                 }
-
-                if((mcards[0].number == mcards[1].number) || 
-                 (mcards[0].number >= 10 && mcards[1].number >= 10)) {
-                    $('#split-btn').css('opacity', '1');
-                }
-
-                if(dcards[0].shape == 'S' && dcards[0].number == 1) {
-                    $('#dark').css('display', 'block');
-                    $('#insu-group').css('display', 'block');
-                }
-
             }
 
             function insu(accept) {
@@ -331,7 +745,7 @@
                 point -= betPrice * 0.5;
                 $('#my-point').html(point);
 
-                if(dcards[1].number >= 10) {
+                if(sdcards[1].number >= 10) {
                     point += betPrice * 1.5;
                     $('#my-point').html(point);
                     endturn();
@@ -367,70 +781,92 @@
                 $(`#card-d-shape-${idx}`).html(getShape(c.shape));
             }
 
-            function flyM2card(c, idx) {
+            function flyM2card(c, idx, uidx) {
                 let et = '300px';
-                let el = (444 + (idx-1) * 40) + "px";
+                let el = (444 + (idx-1) * 40);
+                if(uidx != null)  {
+                    el += uidx == 2 ? 324 : -324;
+                }
+                el += 'px';
+                let eidx = idx;
+                if(uidx != null) {
+                    eidx += "_" + uidx;
+                }
                 let v = `
-                <div id="mt${idx}" style="width:60px; height:90px; background-color: white; 
+                <div id="mt${eidx}" style="width:60px; height:90px; background-color: white; 
                 position: absolute; border-radius: 10px; top:0px; left:964px; border:5px solid #dedede;">
-                <div style="font-size:20px; font-weight: bold; position: absolute; left:10px;color: #bd2828;" id="card-mt-number-${idx}"></div>
-                <div style="font-size:35px;left:12.5px;position:absolute;top:20px;color:#bd2828;" id="card-mt-shape-${idx}"></div>
+                <div style="font-size:20px; font-weight: bold; position: absolute; left:10px;color: #bd2828;" id="card-mt-number-${eidx}"></div>
+                <div style="font-size:35px;left:12.5px;position:absolute;top:20px;color:#bd2828;" id="card-mt-shape-${eidx}"></div>
                 </div>`;
-                $('#my-card-t-group').append(v);
-                $(`#mt${idx}`).animate({
+                if(uidx != null) {
+                    $(`#my-card-t${uidx}-group`).append(v);
+                } else {
+                    $('#my-card-t-group').append(v);
+                }
+                $(`#mt${eidx}`).animate({
                     top:et,
                     left:el
                 });
                 if(c.shape == 'D' || c.shape == 'H') {
-                    $(`#card-mt-number-${idx}`).css('color', '#bd2828');
-                    $(`#card-mt-shape-${idx}`).css('color', '#bd2828');
+                    $(`#card-mt-number-${eidx}`).css('color', '#bd2828');
+                    $(`#card-mt-shape-${eidx}`).css('color', '#bd2828');
                 } else {
-                    $(`#card-mt-number-${idx}`).css('color', 'black');
-                    $(`#card-mt-shape-${idx}`).css('color', 'black');
+                    $(`#card-mt-number-${eidx}`).css('color', 'black');
+                    $(`#card-mt-shape-${eidx}`).css('color', 'black');
                 }
-                $(`#card-mt-number-${idx}`).html(getNumber(c.number));
-                $(`#card-mt-shape-${idx}`).html(getShape(c.shape));
+                $(`#card-mt-number-${eidx}`).html(getNumber(c.number));
+                $(`#card-mt-shape-${eidx}`).html(getShape(c.shape));
             }
 
-            function flyMcard(c, idx) {
+            function flyMcard(c, idx, uidx) {
                 let et = '490px';
-                let el = (444 + (idx-1) * 40) + "px";
+                let el = (444 + (idx-1) * 40);
+                if(uidx != null)  {
+                    el += uidx == 2 ? 324 : -324;
+                }
+                el += 'px';
+                let eidx = idx;
+                if(uidx != null) {
+                    eidx += "_" + uidx;
+                }
                 let v = `
-                <div id="m${idx}" style="width:60px; height:90px; background-color: white; 
+                <div id="m${eidx}" style="width:60px; height:90px; background-color: white; 
                 position: absolute; border-radius: 10px; top:0px; left:964px; border:5px solid #dedede;">
-                <div style="font-size:20px; font-weight: bold; position: absolute; left:10px;color: #bd2828;" id="card-m-number-${idx}"></div>
-                <div style="font-size:35px;left:12.5px;position:absolute;top:20px;color:#bd2828;" id="card-m-shape-${idx}"></div>
+                <div style="font-size:20px; font-weight: bold; position: absolute; left:10px;color: #bd2828;" id="card-m-number-${eidx}"></div>
+                <div style="font-size:35px;left:12.5px;position:absolute;top:20px;color:#bd2828;" id="card-m-shape-${eidx}"></div>
                 </div>`;
-                $('#my-card-group').append(v);
-                $(`#m${idx}`).animate({
+                if(uidx != null) {
+                    $(`#user-card${uidx}-group`).append(v);
+                } else {
+                    $('#my-card-group').append(v);
+                }
+                $(`#m${eidx}`).animate({
                     top:et,
                     left:el
                 });
                 if(c.shape == 'D' || c.shape == 'H') {
-                    $(`#card-m-number-${idx}`).css('color', '#bd2828');
-                    $(`#card-m-shape-${idx}`).css('color', '#bd2828');
+                    $(`#card-m-number-${eidx}`).css('color', '#bd2828');
+                    $(`#card-m-shape-${eidx}`).css('color', '#bd2828');
                 } else {
-                    $(`#card-m-number-${idx}`).css('color', 'black');
-                    $(`#card-m-shape-${idx}`).css('color', 'black');
+                    $(`#card-m-number-${eidx}`).css('color', 'black');
+                    $(`#card-m-shape-${eidx}`).css('color', 'black');
                 }
-                $(`#card-m-number-${idx}`).html(getNumber(c.number));
-                $(`#card-m-shape-${idx}`).html(getShape(c.shape));
+                $(`#card-m-number-${eidx}`).html(getNumber(c.number));
+                $(`#card-m-shape-${eidx}`).html(getShape(c.shape));
             }
 
             function doubledown() {
+                
                 if(!isEnd) {
                     point -= betPrice;
                     $('#my-point').html(point);
                     betPrice *= 2;
                     $('#bet-price').html(betPrice+"만");
 
-                    let card = cards.pop();
-                    mcards.push(card);
-                    flyMcard(card, mcards.length);
-                    
-                    updateInfo();
-                    
-                    endturn();                
+                    socket.emit('doubledown', { 
+                        id: myId,
+                        isEnd : isEnd
+                    });
                 } else {
                     isSplitEnd = true;
                     point -= betPrice2;
@@ -438,13 +874,10 @@
                     betPrice2 *= 2;
                     $('#bet-price-t').html(betPrice2+"만");
 
-                    let card = cards.pop();
-                    mcards2.push(card);
-                    flyM2card(card, mcards2.length);
-
-                    updateInfoT();
-
-                    endturn(); 
+                    socket.emit('doubledown', { 
+                        id: myId,
+                        isEnd : isEnd
+                    });
                 }
             }
 
@@ -452,30 +885,18 @@
                 if(isSplit || $('#split-btn').css('opacity') != 1) {
                     return;
                 }
-                $('#split-btn').css('opacity', '0.5');
+                $('#split-btn').css('opacity', '0.5');            
                 
                 isSplit = true;
-                let card = mcards.pop();
-                $('#m2').remove();
-                mcards2.push(card);
-                flyM2card(card, 1);
-                updateInfo();
 
-                $('#my-card-t-group').css('opacity', '0.5');
-                $('#bet-price-t').css('opacity','0.5');
-                $('#info-t').css('opacity','0.5');
-                $('#bet-price-t').css('display','block');
-                $('#info-t').css('display','block');
-                betPrice2 = betPrice;
-                point -= betPrice2;
-                $('#my-point').html(point);
-                $('#bet-price-t').html(betPrice2+"만");
-                updateInfoT();
+                socket.emit('splitcard', {
+                    id: myId
+                });
+
             }
 
             function endturn() {
                 console.log('endturn');
-                
                 if(isSplit && !isSplitEnd) {
                     isEnd = true;
                     $('#my-card-group').css('opacity', '0.5');
@@ -485,12 +906,13 @@
                     $('#bet-price-t').css('opacity','1');
                     $('#info-t').css('opacity','1');
                 } else {
-                    dealerplay();
+                    socket.emit('endturn', {});
                 }
             }
 
             function updateHiddenCard() {
-                let c = dcards[1];
+                console.log(sdcards);
+                let c = sdcards[1];
                 $('#d2').css('background-color', 'white');
                 if(c.shape == 'D' || c.shape == 'H') {
                     $(`#card-d-number-2`).css('color', '#bd2828');
@@ -505,26 +927,39 @@
 
             async function dealerHit() {
                 let r = getSum(dcards);
+                let idx = 2;
                 while(r[1] < 17 || (r[1] > 21 && r[0] < 17)) {
-                    let card = cards.pop();
-                    dcards.push(card);
-                    flyDcard(card, dcards.length);
+                    flyDcard(sdcard[idx], idx + 1);
                     updateDInfo();
-                    r = getSum(dcards);
+                    r = getSum(sdcards);
                     await sleep(1000);
                 }
             }            
 
             async function dealerplay() {
                 $('#btn-group').css('display', 'none');
+                $('#my-card-group').css('opacity', '0.5');
+                $('#user-card1-group').css('opacity', '0.5');
+                $('#user-card2-group').css('opacity', '0.5');
+                $('#myid-text').css('opacity', '0.5');
+                $('#user1-text').css('opacity', '0.5');
+                $('#user2-text').css('opacity', '0.5');
+                $('#info').css('opacity', '0.5');
+                $('#info1').css('opacity', '0.5');
+                $('#info2').css('opacity', '0.5');
+                $('#bet-price').css('opacity', '0.5');
+                $('#d-card-group').css('opacity', '1');
                 await sleep(1000);
                 updateHiddenCard();
+                var idx = 2;
+                for(var i = 2; i<sdcards.length;i++) {
+                    flyDcard(sdcards[i], i+1);
+                    updateDInfo();
+                    await sleep(1000);
+                }
                 updateDInfo();
                 await sleep(1000);
-                await dealerHit();
-                await sleep(1000);
                 gameover();
-
 
             }
 
@@ -538,40 +973,24 @@
             }
 
             function hit() {
-                
-                if(!isEnd) {
-                    let card = cards.pop();
-                    mcards.push(card);
-                    flyMcard(card, mcards.length);
-                    updateInfo();
-                    isUserBust = isBust(mcards);
-                    isUserBlackJack = isBlackJack(mcards);
-                    if(isUserBust || isUserBlackJack) {
-                        endturn();
-                    }
-                } else {
-                    let card = cards.pop();
-                    mcards2.push(card);
-                    flyM2card(card, mcards2.length);
-                    updateInfoT();
-                    isUserBust = isBust(mcards2);
-                    isUserBlackJack = isBlackJack(mcards2);
-                    if(isUserBust || isUserBlackJack) {
-                        isSplitEnd = true;
-                        endturn();
-                    }
-                }
+
+                socket.emit('hit', {
+                    id : myId,
+                    isEnd : isEnd
+                });
+            
             }
 
             function gameover() {
+                console.log('game over');
+
                 let win = 0;
-                let ubust = isBust(mcards);
-                let ublack = isBlackJack(mcards);
-                console.log(dcards);
-                let dbust = isBust(dcards);
-                let dblack = isBlackJack(dcards);
-                let ur = getSum(mcards);
-                let dr = getSum(dcards);
+                let ubust = isBust(sucards[myId]);
+                let ublack = isBlackJack(sucards[myId]);
+                let dbust = isBust(sdcards);
+                let dblack = isBlackJack(sdcards);
+                let ur = getSum(sucards[myId]);
+                let dr = getSum(sdcards);
                 console.log(`${ubust} ${dbust} ${ublack} ${dblack}`);
                 if((ubust && dbust) || (ublack && dblack)) {
                     win = 0;
@@ -630,12 +1049,12 @@
 
             function gameover2() {
                 let win = 0;
-                let ubust = isBust(mcards2);
-                let ublack = isBlackJack(mcards2);
-                let dbust = isBust(dcards);
-                let dblack = isBlackJack(dcards);
-                let ur = getSum(mcards2);
-                let dr = getSum(dcards);
+                let ubust = isBust(sucards2[myId]);
+                let ublack = isBlackJack(sucards2[myId]);
+                let dbust = isBust(sdcards);
+                let dblack = isBlackJack(sdcards);
+                let ur = getSum(sucards2[myId]);
+                let dr = getSum(sdcards);
                 console.log(`${ubust} ${dbust} ${ublack} ${dblack}`);
                 if((ubust && dbust) || (ublack && dblack)) {
                     win = 0;
@@ -688,6 +1107,11 @@
 
             function restart() {
                 start();
+                $('#room').css('display', 'none');
+                if(userList[0] == myId) {
+                    gamestart();
+                } 
+                
             }
 
             start();
