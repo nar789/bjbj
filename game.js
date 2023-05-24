@@ -78,6 +78,12 @@ module.exports = class Game {
         for(var i=1;i<=2;i++) {
             let card = this.cards.pop();
             this.dcards.push(card);
+            /* first time dealk black jack test
+            if(i == 1) {
+                this.dcards.push({shape:'H', number:10});
+            } else if(i==2) {
+                this.dcards.push({shape:'H', number:1});
+            }*/
             
             for(var u of userList) {
                 let card2 = this.cards.pop();

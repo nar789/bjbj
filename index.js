@@ -95,25 +95,33 @@ io.on('connection', (socket) => {
   socket.on('betting-done',  ()=>{
     let roomId = Array.from(socket.rooms)[1];
     let users = io.sockets.adapter.rooms.get(roomId);
-    game.get(roomId).betting(io, Array.from(users), roomId);
+    if(game.has(roomId)) {
+      game.get(roomId).betting(io, Array.from(users), roomId);
+    }
   });
 
   socket.on('hit', ({id, isEnd}) => {
     let roomId = Array.from(socket.rooms)[1];
     let users = io.sockets.adapter.rooms.get(roomId);
-    game.get(roomId).hit(io, id, isEnd, roomId);
+    if(game.has(roomId)) {
+      game.get(roomId).hit(io, id, isEnd, roomId);
+    }
   });
 
   socket.on('endturn', ({}) => {
     let roomId = Array.from(socket.rooms)[1];
     let users = io.sockets.adapter.rooms.get(roomId);
-    game.get(roomId).endturn(io, Array.from(users), roomId);
+    if(game.has(roomId)) {
+      game.get(roomId).endturn(io, Array.from(users), roomId);
+    }
   });
 
   socket.on('doubledown', ({id, isEnd}) => {
     let roomId = Array.from(socket.rooms)[1];
     let users = io.sockets.adapter.rooms.get(roomId);
-    game.get(roomId).doubleDown(io, id, isEnd, roomId);
+    if(game.has(roomId)) {
+      game.get(roomId).doubleDown(io, id, isEnd, roomId);
+    }
   });
 
   socket.on('splitcard', ({id}) => {
